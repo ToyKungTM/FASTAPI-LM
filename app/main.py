@@ -2,6 +2,7 @@ import logging
 from fastapi import FastAPI
 from .api.v1.router import app_router
 from .core import logger
+from fastapi.middleware.cors import CORSMiddleware
 
 # Configure logging is handled by core.logger module
 
@@ -11,4 +12,13 @@ app = FastAPI(
     description="A service that provides AI-based predictions via RESTful API.",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+)
+
 app.include_router(app_router, prefix="/api/v1")
+
